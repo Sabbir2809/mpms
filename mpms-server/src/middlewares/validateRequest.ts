@@ -1,31 +1,31 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
-import { ZodError, ZodSchema } from "zod";
+import { z } from "zod";
 import { AppError } from "../utils/appError";
 
 type RequestPart = "body" | "query" | "params";
 
 export const validateRequest = (
-  schema: ZodSchema,
+  schema: z.ZodTypeAny,
   part: RequestPart = "body",
 ): RequestHandler => {
   return (req: Request, _res: Response, next: NextFunction): void => {
     const result = schema.safeParse(req[part]);
 
     if (!result.success) {
-      const errors = formatZodErrors(result.error);
-      const firstError = (errors[0]?.message as string) || "Validation failed";
-      return next(new AppError(firstError, 422, errors));
+      const errors = result.error.errors.map(
+        (err: { path: any[]; message: any; code: any }) => ({
+          field: err.path.join("."),
+          message: err.message,
+          code: err.code,
+        }),
+      );
+
+      return next(
+        new AppError(errors[0]?.message ?? "Validation failed", 422, errors),
+      );
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (req as any)[part] = result.data;
+    req[part] = result.data;
     next();
   };
 };
-
-const formatZodErrors = (error: ZodError): Record<string, unknown>[] =>
-  error.errors.map((err) => ({
-    field: err.path.join("."),
-    message: err.message,
-    code: err.code,
-  }));

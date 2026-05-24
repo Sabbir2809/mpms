@@ -15,7 +15,7 @@ commentRoutes.post(
 );
 commentRoutes.patch(
   "/:commentId",
-  validateRequest(commentValidations),
+  validateRequest(commentValidations.updateCommentSchema),
   commentControllers.update,
 );
 commentRoutes.delete("/:commentId", commentControllers.remove);
