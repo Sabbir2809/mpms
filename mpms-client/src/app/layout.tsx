@@ -1,4 +1,5 @@
 import { AntdProvider } from "@/providers/AntdProvider";
+import { AuthProvider } from "@/providers/AuthProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -23,7 +24,9 @@ export default function RootLayout({ children }: Readonly<Props>) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AntdProvider>{children}</AntdProvider>
+        <AntdProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </AntdProvider>
       </body>
     </html>
   );
