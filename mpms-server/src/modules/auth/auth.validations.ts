@@ -33,7 +33,7 @@ const changePasswordSchema = z.object({
     .regex(/[0-9]/, "Must contain at least one number"),
 });
 
-export const authValidation = {
+export const authValidations = {
   registerSchema,
   loginSchema,
   refreshTokenSchema,

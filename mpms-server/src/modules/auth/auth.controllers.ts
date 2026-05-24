@@ -2,15 +2,15 @@ import { Response } from "express";
 import { AuthRequest } from "../../types";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
-import { authService } from "./auth.service";
+import { authServices } from "./auth.services";
 import {
   LoginInput,
   RefreshTokenInput,
   RegisterInput,
-} from "./auth.validation";
+} from "./auth.validations";
 
 const register = catchAsync(async (req: AuthRequest, res: Response) => {
-  const result = await authService.registerUser(req.body as RegisterInput);
+  const result = await authServices.registerUser(req.body as RegisterInput);
 
   sendResponse(res, {
     statusCode: 201,
@@ -21,7 +21,7 @@ const register = catchAsync(async (req: AuthRequest, res: Response) => {
 });
 
 const login = catchAsync(async (req: AuthRequest, res: Response) => {
-  const result = await authService.loginUser(req.body as LoginInput);
+  const result = await authServices.loginUser(req.body as LoginInput);
 
   sendResponse(res, {
     statusCode: 200,
@@ -32,7 +32,7 @@ const login = catchAsync(async (req: AuthRequest, res: Response) => {
 });
 
 const refresh = catchAsync(async (req: AuthRequest, res: Response) => {
-  const tokens = await authService.refreshAccessToken(
+  const tokens = await authServices.refreshAccessToken(
     req.body as RefreshTokenInput,
   );
 
@@ -45,7 +45,7 @@ const refresh = catchAsync(async (req: AuthRequest, res: Response) => {
 });
 
 const logout = catchAsync(async (req: AuthRequest, res: Response) => {
-  await authService.logoutUser(req.user!.userId);
+  await authServices.logoutUser(req.user!.userId);
 
   sendResponse(res, {
     statusCode: 200,
@@ -55,7 +55,7 @@ const logout = catchAsync(async (req: AuthRequest, res: Response) => {
 });
 
 const getProfile = catchAsync(async (req: AuthRequest, res: Response) => {
-  const user = await authService.getMe(req.user!.userId);
+  const user = await authServices.getMe(req.user!.userId);
 
   sendResponse(res, {
     statusCode: 200,
@@ -65,7 +65,7 @@ const getProfile = catchAsync(async (req: AuthRequest, res: Response) => {
   });
 });
 
-export const authController = {
+export const authControllers = {
   register,
   login,
   refresh,

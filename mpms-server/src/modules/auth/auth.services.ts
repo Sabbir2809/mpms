@@ -11,7 +11,7 @@ import {
   LoginInput,
   RefreshTokenInput,
   RegisterInput,
-} from "./auth.validation";
+} from "./auth.validations";
 
 interface AuthTokens {
   accessToken: string;
@@ -120,7 +120,7 @@ const getMe = async (userId: string): Promise<IUser> => {
   return user;
 };
 
-export const authService = {
+export const authServices = {
   registerUser,
   loginUser,
   refreshAccessToken,

@@ -2,33 +2,33 @@ import { Router } from "express";
 import { authGuard } from "../../middlewares/authGuard";
 import { authRateLimiter } from "../../middlewares/rateLimiter";
 import { validateRequest } from "../../middlewares/validateRequest";
-import { authController } from "./auth.controller";
-import { authValidation } from "./auth.validation";
+import { authControllers } from "./auth.controllers";
+import { authValidations } from "./auth.validations";
 
 const authRoutes = Router();
 
 authRoutes.post(
   "/register",
   authRateLimiter,
-  validateRequest(authValidation.registerSchema),
-  authController.register,
+  validateRequest(authValidations.registerSchema),
+  authControllers.register,
 );
 
 authRoutes.post(
   "/login",
   authRateLimiter,
-  validateRequest(authValidation.loginSchema),
-  authController.login,
+  validateRequest(authValidations.loginSchema),
+  authControllers.login,
 );
 
 authRoutes.post(
   "/refresh",
-  validateRequest(authValidation.refreshTokenSchema),
-  authController.refresh,
+  validateRequest(authValidations.refreshTokenSchema),
+  authControllers.refresh,
 );
 
-authRoutes.post("/logout", authGuard, authController.logout);
+authRoutes.post("/logout", authGuard, authControllers.logout);
 
-authRoutes.get("/me", authGuard, authController.getProfile);
+authRoutes.get("/me", authGuard, authControllers.getProfile);
 
 export default authRoutes;
