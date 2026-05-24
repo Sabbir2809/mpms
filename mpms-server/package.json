@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "MPMS Backend — Express.js + TypeScript + MongoDB",
   "main": "dist/server.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
@@ -32,5 +33,6 @@
     "@types/node": "^22.7.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.6.3"
-  }
+  },
+  "license": "MIT"
 }
